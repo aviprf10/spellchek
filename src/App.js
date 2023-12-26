@@ -17,16 +17,10 @@ const XSpellCheck = () => {
   };
 
   const handleSpellCheck = () => {
-    if (!userInput.trim()) {
-      // If the input is empty or contains only whitespace, reset the suggestion
-      setSuggestion('');
-      return;
-    }
-
     const words = userInput.split(' ');
 
     for (let i = 0; i < words.length; i++) {
-      const word = words[i].toLowerCase();
+      const word = words[i].toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ''); // Remove common punctuation
       const correctedWord = dictionary.find(
         (entry) => entry.toLowerCase() === word
       );
@@ -41,7 +35,7 @@ const XSpellCheck = () => {
     // If no misspelled words found, reset the suggestion
     setSuggestion('');
   };
-  
+
   return (
     <div>
       <textarea value={userInput} onChange={handleInputChange} />
