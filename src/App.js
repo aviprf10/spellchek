@@ -1,48 +1,40 @@
-import React, { useState } from 'react';
+// Class-based implementation
+import React, { Component } from 'react';
 
-const XSpellCheck = () => {
-  const [userInput, setUserInput] = useState('');
-  const [suggestion, setSuggestion] = useState('');
+class XSpellCheck extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInput: '',
+      suggestion: '',
+    };
+  }
 
-  const dictionary = [
-    'work',
-    'example',
-    'another',
-    'the',
-    // Add more words to your dictionary
-  ];
-
-  const handleInputChange = (e) => {
-    setUserInput(e.target.value);
+  handleInputChange = (e) => {
+    this.setState({
+      userInput: e.target.value,
+    });
   };
 
-  const handleSpellCheck = () => {
-    const words = userInput.split(' ');
-
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i].toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ''); // Remove common punctuation
-      const correctedWord = dictionary.find(
-        (entry) => entry.toLowerCase() === word
-      );
-
-      if (correctedWord) {
-        // Set the suggestion for the first misspelled word
-        setSuggestion(`Did you mean: ${correctedWord}?`);
-        return;
-      }
-    }
-
-    // If no misspelled words found, reset the suggestion
-    setSuggestion('');
+  handleSpellCheck = () => {
+    // Assume spell-check logic here using the provided dictionary
+    // Set the suggestion in the state
+    this.setState({
+      suggestion: 'Suggested Correction',
+    });
   };
 
-  return (
-    <div>
-      <textarea value={userInput} onChange={handleInputChange} />
-      <button onClick={handleSpellCheck}>Spell Check</button>
-      <p>Suggestion: {suggestion}</p>
-    </div>
-  );
-};
+  render() {
+    const { userInput, suggestion } = this.state;
+
+    return (
+      <div>
+        <textarea value={userInput} onChange={this.handleInputChange} />
+        <button onClick={this.handleSpellCheck}>Spell Check</button>
+        <p>Suggestion: {suggestion}</p>
+      </div>
+    );
+  }
+}
 
 export default XSpellCheck;
