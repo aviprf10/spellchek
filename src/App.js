@@ -4,7 +4,7 @@ const XSpellCheck = () => {
   const [userInput, setUserInput] = useState('');
   const [suggestion, setSuggestion] = useState('');
 
-  const dictionary = {
+  const customDictionary = {
     teh: 'the',
     wrok: 'work',
     fot: 'for',
@@ -22,10 +22,12 @@ const XSpellCheck = () => {
       return;
     }
 
-    const words = userInput.split(/\s+/);
+    const words = userInput.split(' ');
 
-    for (const word of words) {
-      const correctedWord = dictionary[word.toLowerCase()];
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i].toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+      const correctedWord = customDictionary[word];
+
       if (correctedWord) {
         setSuggestion(`Did you mean: ${correctedWord}?`);
         return;
@@ -37,8 +39,8 @@ const XSpellCheck = () => {
 
   return (
     <div>
-      <h1>Spell Check and Auto-Correction</h1>
-      <textarea value={userInput} onChange={handleInputChange} placeholder='Enter text...' />
+      
+      <textarea value={userInput} onChange={handleInputChange} />
       <button onClick={handleSpellCheck}>Spell Check</button>
       <p>Suggestion: {suggestion}</p>
     </div>
