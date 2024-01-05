@@ -4,33 +4,28 @@ const XSpellCheck = () => {
   const [userInput, setUserInput] = useState('');
   const [suggestion, setSuggestion] = useState('');
 
-  const dictionary = [
-    'work',
-    'example',
-    'another',
-    'the',
-    // Add more words to your dictionary
-  ];
+  const dictionary = {
+    teh: 'the',
+    wrok: 'work',
+    fot: 'for',
+    exampl: 'example',
+  };
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
 
   const handleSpellCheck = () => {
-    const words = userInput.split(' ');
-
     // Check if the input is empty or contains only whitespace
     if (!userInput.trim()) {
       setSuggestion('');
       return;
     }
 
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i].toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
-      const correctedWord = dictionary.find(
-        (entry) => entry.toLowerCase() === word
-      );
+    const words = userInput.split(/\s+/);
 
+    for (const word of words) {
+      const correctedWord = dictionary[word.toLowerCase()];
       if (correctedWord) {
         setSuggestion(`Did you mean: ${correctedWord}?`);
         return;
@@ -42,7 +37,8 @@ const XSpellCheck = () => {
 
   return (
     <div>
-      <textarea value={userInput} onChange={handleInputChange} />
+      <h1>Spell Check and Auto-Correction</h1>
+      <textarea value={userInput} onChange={handleInputChange} placeholder='Enter text...' />
       <button onClick={handleSpellCheck}>Spell Check</button>
       <p>Suggestion: {suggestion}</p>
     </div>
